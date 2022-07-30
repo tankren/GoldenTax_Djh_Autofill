@@ -2,7 +2,7 @@ from tkinter import Tk     # from tkinter import Tk for Python 3.x
 from tkinter.filedialog import askopenfilename
 from lxml import etree
 #importing other modules
-import logging, os, sys, subprocess, time, datetime
+import logging, os, sys, subprocess, time, datetime, re
 os.popen("chcp 936")
 
 start=datetime.datetime.now().strftime("%Y%m%d%H%M%S")
@@ -55,7 +55,6 @@ else:
                 data = mapping.readlines()    
                 for line in data:
                     if fphm.text in line:
-                        import re
                         pattern = re.compile(r"\d{10}")
                         map = pattern.findall(line)[0]
                         if map == '':
