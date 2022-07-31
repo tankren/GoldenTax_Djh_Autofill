@@ -39,7 +39,7 @@ pattern = re.compile(r"\d{10}")
 
 if xmlfile == '' or txtfile == '':
     # print('文件选择有误,程序将退出,请重新运行')
-    logger.warning('文件选择有误,程序将退出,请重新运行')
+    logger.warning('文件选择有误, 程序将退出, 请重新运行')
     logging.shutdown()
     os.rename('处理日志.txt', logfile)
     subprocess.Popen(['notepad.exe', logfile])
