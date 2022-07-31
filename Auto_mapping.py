@@ -63,7 +63,7 @@ else:
                 for line in data:
                     if fphm.text in line:
                         map = pattern.findall(line)[0]
-                        if map == '':
+                        if not map:
                             # print('发票号码',fphm.text,'未匹配到单据号')
                             logger.info(f'发票号码{fphm.text}未匹配到单据号')
                         else:
