@@ -69,7 +69,7 @@ class MyWidget(QWidget):
         pattern = re.compile(r"\d{10}")
 
         if self.line_xml.text == '' or  self.line_txt.text == '':
-            QMessageBox.abort(self._window, '错误', '请重新选择文件！', QMessageBox.Ok)
+            self.msgbox('错误', '请重新选择文件！')
         else:
             xml = etree.parse(self.line_xml.text)  # 读取xml文件
             root = xml.getroot()  # 获取根节点
@@ -96,6 +96,11 @@ class MyWidget(QWidget):
                             else:
                                 self.message.error
 
+    def msgbox(self, title, text):
+        tip = QMessageBox()
+        tip.setWindowTitle(title)
+        tip.setText(text)
+        tip.exec()
 
 app = QApplication()
 widget = MyWidget()
