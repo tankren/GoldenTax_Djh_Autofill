@@ -5,8 +5,8 @@ Created on Mon Aug  1 08:53:23 2022
 @author: REC3WX
 """
 
-from PySide6.QtWidgets import QWidget, QPushButton, QFileDialog, QApplication, QLineEdit, QGridLayout, QLabel, QMessageBox, QPlainTextEdit, QFrame
-from PySide6.QtGui import QIcon, QFont
+from PySide6.QtWidgets import QWidget, QPushButton, QFileDialog, QApplication, QLineEdit, QGridLayout, QLabel, QMessageBox, QPlainTextEdit, QFrame, QStyle
+from PySide6.QtGui import QFont
 from PySide6.QtCore import Slot, Qt
 from lxml import etree
 import re
@@ -19,11 +19,12 @@ import qdarktheme
 class MyWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        my_icon = QIcon()
-        my_icon.addFile('./icon.png')
+        
         self.setWindowTitle('单据号补完工具 v0.3   - Made by REC3WX')
-        self.setWindowIcon(my_icon)
-        self.setFixedSize(700, 250)
+        pixmapi  = QStyle.SP_FileDialogContentsView
+        icon = self.style().standardIcon(pixmapi)
+        self.setWindowIcon(icon)
+        self.setFixedSize(700, 300)
         
 
         self.fld_xml = QLabel('金税系统导出XML文件:')
