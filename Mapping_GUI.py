@@ -4,22 +4,22 @@ Created on Mon Aug  1 08:53:23 2022
 
 @author: REC3WX
 """
-import PySide6
+
 from PySide6.QtWidgets import QWidget, QPushButton, QFileDialog, QApplication, QLineEdit, QGridLayout, QLabel, QMessageBox, QPlainTextEdit, QFrame
-from PySide6.QtGui import QIcon, QFont, QGuiApplication
+from PySide6.QtGui import QIcon, QFont
 from PySide6.QtCore import Slot, Qt
 from lxml import etree
 import re
-import os
 import sys
 import subprocess
-
+# import PySide6
+# import os
 
 class MyWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         my_icon = QIcon()
-        my_icon.addFile('icon.png')
+        my_icon.addFile('./icon.png')
         self.setWindowTitle('单据号补完工具 v0.3   - Made by REC3WX')
         self.setWindowIcon(my_icon)
         self.setFixedSize(700, 250)
@@ -67,7 +67,6 @@ class MyWidget(QWidget):
         self.layout.addWidget((self.btn_show), 6, 2, 1, 1)
 
         self.setLayout(self.layout)
-        self.center
 
     @Slot()
     def openxmlDialog(self):
@@ -128,26 +127,18 @@ class MyWidget(QWidget):
                                         error_text)
 
     def msgbox_err(self, title, text):
-        tip = QMessageBox()
+        tip = QMessageBox(self)
         tip.setIcon(QMessageBox.Critical)
-        tip.setWindowFlag(Qt.FramelessWindowHint)
-        # tip.setWindowIcon(QPixmap)
-        # tip.setWindowTitle(title)
+        tip.setWindowFlag(Qt.CustomizeWindowHint)
+        tip.setWindowTitle('错误')
         font = QFont()
         font.setFamily("Microsoft YaHei")
         font.setPointSize(9)
         tip.setFont(font)
         tip.setText(text)
         tip.exec()
-
-    def center(self):
-        screen = QGuiApplication().screenGeometry()  # 获取屏幕分辨率
-        size = self.geometry()  # 获取窗口尺寸
-        self.move((screen.width()-size.width())/2,
-                  (screen.height()-size.height())/2)  # 利用move函数窗口居中
-
+        
     def showxml(self):
-
         if not self.text_result.toPlainText() == '':
             subprocess.Popen(
                 ['C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
@@ -157,10 +148,10 @@ class MyWidget(QWidget):
             self.msgbox_err('错误', '请运行程序后再查看结果！')
 
 
-dirname = os.path.dirname(PySide6.__file__)
-if not dirname == '':
-    plugin_path = os.path.join(dirname, 'plugins', 'platforms')
-    os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
+#dirname = os.path.dirname(PySide6.__file__)
+#if not dirname == '':
+#    plugin_path = os.path.join(dirname, 'plugins', 'platforms')
+#    os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
 
 if not QApplication.instance():
     app = QApplication(sys.argv)
