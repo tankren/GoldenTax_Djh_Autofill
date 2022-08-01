@@ -50,7 +50,7 @@ class MyWidget(QWidget):
         self.line.setFrameShape(QFrame.HLine)
         self.line.setFrameShadow(QFrame.Sunken)
         self.btn_show = QPushButton('打开结果文件')
-        self.btn_show.clicked.connect(self.show)
+        self.btn_show.clicked.connect(self.showxml)
         self.btn_reset = QPushButton('清空')
         self.btn_reset.clicked.connect(self.reset)
         
