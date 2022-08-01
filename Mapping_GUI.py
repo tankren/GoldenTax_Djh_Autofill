@@ -12,6 +12,7 @@ from lxml import etree
 import re
 import sys
 import subprocess
+import qdarktheme
 # import PySide6
 # import os
 
@@ -23,10 +24,7 @@ class MyWidget(QWidget):
         self.setWindowTitle('单据号补完工具 v0.3   - Made by REC3WX')
         self.setWindowIcon(my_icon)
         self.setFixedSize(700, 250)
-        font = QFont()
-        font.setFamily("Microsoft YaHei")
-        font.setPointSize(9)
-        self.setFont(font)
+        
 
         self.fld_xml = QLabel('金税系统导出XML文件:')
         self.btn_xml = QPushButton('打开')
@@ -129,7 +127,7 @@ class MyWidget(QWidget):
     def msgbox_err(self, title, text):
         tip = QMessageBox(self)
         tip.setIcon(QMessageBox.Critical)
-        tip.setWindowFlag(Qt.CustomizeWindowHint)
+        tip.setWindowFlag(Qt.FramelessWindowHint)
         tip.setWindowTitle('错误')
         font = QFont()
         font.setFamily("Microsoft YaHei")
@@ -147,7 +145,6 @@ class MyWidget(QWidget):
         else:
             self.msgbox_err('错误', '请运行程序后再查看结果！')
 
-
 #dirname = os.path.dirname(PySide6.__file__)
 #if not dirname == '':
 #    plugin_path = os.path.join(dirname, 'plugins', 'platforms')
@@ -157,6 +154,11 @@ if not QApplication.instance():
     app = QApplication(sys.argv)
 else:
     app = QApplication.instance()
+app.setStyleSheet(qdarktheme.load_stylesheet())
+font = QFont()
+font.setFamily("Microsoft YaHei")
+font.setPointSize(10)
+app.setFont(font)
 widget = MyWidget()
 widget.show()
 app.exec()
