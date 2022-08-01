@@ -42,15 +42,17 @@ class MyWidget(QWidget):
         #self.line_txt.setAcceptDrops(True)
         self.btn_start = QPushButton('开始')
         self.btn_start.clicked.connect(self.start)
-        self.fld_result = QLabel('运行结果:')
+        self.fld_result = QLabel('运行日志:')
         self.text_result = QPlainTextEdit()
         self.text_result.setReadOnly(True)
         self.line = QFrame()
         self.line.setFrameShape(QFrame.HLine)
         self.line.setFrameShadow(QFrame.Sunken)
         self.btn_show = QPushButton('打开结果文件')
-        self.btn_show.clicked.connect(self.showxml)
-
+        self.btn_show.clicked.connect(self.reset)
+        self.btn_reset = QPushButton('清空')
+        self.btn_reset.clicked.connect(self.reset)
+        
         self.layout = QGridLayout()
         self.layout.addWidget((self.fld_xml), 0, 0)
         self.layout.addWidget((self.line_xml), 0, 1)
@@ -60,9 +62,10 @@ class MyWidget(QWidget):
         self.layout.addWidget((self.btn_txt), 1, 2)
         self.layout.addWidget((self.line), 2, 0, 1, 2)
         self.layout.addWidget((self.fld_result), 3, 0)
-        self.layout.addWidget((self.text_result), 4, 0, 4, 2)
+        self.layout.addWidget((self.text_result), 4, 0, 5, 2)
         self.layout.addWidget((self.btn_start), 5, 2, 1, 1)
         self.layout.addWidget((self.btn_show), 6, 2, 1, 1)
+        self.layout.addWidget((self.btn_reset), 7, 2, 1, 1)
 
         self.setLayout(self.layout)
 
@@ -144,7 +147,12 @@ class MyWidget(QWidget):
             )
         else:
             self.msgbox_err('错误', '请运行程序后再查看结果！')
-
+            
+    def reset(self):
+        self.line_xml.setText('')
+        self.line_txt.setText('')
+        self.text_result.clear()
+        
 #dirname = os.path.dirname(PySide6.__file__)
 #if not dirname == '':
 #    plugin_path = os.path.join(dirname, 'plugins', 'platforms')
