@@ -9,6 +9,8 @@ from PySide6.QtWidgets import QWidget, QPushButton, QFileDialog, QApplication, Q
 from PySide6.QtGui import QFont
 from PySide6.QtCore import Slot, Qt
 from lxml import etree
+#from winreg import HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx, ConnectRegistry
+import winreg
 import re
 import sys
 import subprocess
@@ -16,16 +18,16 @@ import qdarktheme
 # import PySide6
 # import os
 
+
 class MyWidget(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
-        
+
         self.setWindowTitle('单据号补完工具 v0.3   - Made by REC3WX')
-        pixmapi  = QStyle.SP_FileDialogContentsView
+        pixmapi = QStyle.SP_FileDialogContentsView
         icon = self.style().standardIcon(pixmapi)
         self.setWindowIcon(icon)
         self.setFixedSize(700, 300)
-        
 
         self.fld_xml = QLabel('金税系统导出XML文件:')
         self.btn_xml = QPushButton('打开')
@@ -33,14 +35,14 @@ class MyWidget(QWidget):
         self.line_xml = QLineEdit()
         self.line_xml.setFixedWidth(400)
         self.line_xml.setClearButtonEnabled(True)
-        #self.line_xml.setAcceptDrops(True)
+        # self.line_xml.setAcceptDrops(True)
         self.fld_txt = QLabel('批量导入结果TXT文件:')
         self.btn_txt = QPushButton('打开')
         self.btn_txt.clicked.connect(self.opentxtDialog)
         self.line_txt = QLineEdit()
         self.line_txt.setFixedWidth(400)
         self.line_txt.setClearButtonEnabled(True)
-        #self.line_txt.setAcceptDrops(True)
+        # self.line_txt.setAcceptDrops(True)
         self.btn_start = QPushButton('开始')
         self.btn_start.clicked.connect(self.start)
         self.fld_result = QLabel('运行日志:')
@@ -53,7 +55,7 @@ class MyWidget(QWidget):
         self.btn_show.clicked.connect(self.showxml)
         self.btn_reset = QPushButton('清空')
         self.btn_reset.clicked.connect(self.reset)
-        
+
         self.layout = QGridLayout()
         self.layout.addWidget((self.fld_xml), 0, 0)
         self.layout.addWidget((self.line_xml), 0, 1)
@@ -141,25 +143,39 @@ class MyWidget(QWidget):
         tip.setFont(font)
         tip.setText(text)
         tip.exec()
-        
+
     def showxml(self):
         if not self.text_result.toPlainText() == '':
+            key = winreg.OpenKey(winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER),
+                                 r"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\https\UserChoice")
+            print(key)
+            prog_id, _ = winreg.QueryValueEx(key, "ProgId")
+            print(prog_id)
+            key = winreg.OpenKey(winreg.ConnectRegistry(
+                None, winreg.HKEY_LOCAL_MACHINE), r"SOFTWARE\Classes\{}\shell\open\command".format(prog_id))
+            print(key)
+            browser, _ = winreg.QueryValueEx(key, "")
+            print(browser)
+            str_pat = re.compile(r'\"(.*?)\"')
+            webpath = str_pat.findall(browser)[0]
+            print(webpath)
             subprocess.Popen(
-                ['C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',
+                [webpath,
                  self.line_xml.text()]
             )
         else:
             self.msgbox_err('错误', '请运行程序后再查看结果！')
-            
+
     def reset(self):
         self.line_xml.setText('')
         self.line_txt.setText('')
         self.text_result.clear()
-        
+
 #dirname = os.path.dirname(PySide6.__file__)
-#if not dirname == '':
+# if not dirname == '':
 #    plugin_path = os.path.join(dirname, 'plugins', 'platforms')
 #    os.environ['QT_QPA_PLATFORM_PLUGIN_PATH'] = plugin_path
+
 
 if not QApplication.instance():
     app = QApplication(sys.argv)
