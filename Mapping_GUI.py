@@ -116,7 +116,9 @@ class MyWidget(QWidget):
                                     hit = pattern.findall(line)[0]
                                     djh.text = hit[-10:]
                                     xml.write(self.line_xml.text(),
-                                              pretty_print=True)
+                                              pretty_print=True,
+                                              encoding='utf-8',
+                                              xml_declaration=True)
                                     success_text = str(
                                         f'修改成功！！发票号码 {fphm.text} 对应的单据号为 {djh.text}')
                                     self.text_result.appendPlainText(
