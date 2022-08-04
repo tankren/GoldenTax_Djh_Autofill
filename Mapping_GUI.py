@@ -128,7 +128,7 @@ class MyWidget(QWidget):
                                 except IndexError:
                                     # if not map:
                                     error_text = (
-                                        f'匹配错误！！发票号码 {fphm.text} 未匹配到单据号，请检查TXT文件')
+                                        f'匹配错误！！发票号码 {fphm.text} 未匹配到单据号, 请检查TXT文件')
                                     self.text_result.appendPlainText(
                                         error_text)
 
