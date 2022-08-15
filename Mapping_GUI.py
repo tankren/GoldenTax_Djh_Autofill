@@ -13,7 +13,6 @@ from lxml import etree
 import re
 import sys, importlib
 import subprocess
-import qdarktheme
 # import PySide6
 # import os
 winreg_exists = importlib.find_loader('winreg')
@@ -183,7 +182,7 @@ if not QApplication.instance():
     app = QApplication(sys.argv)
 else:
     app = QApplication.instance()
-app.setStyleSheet(qdarktheme.load_stylesheet())
+app.setStyle("fusion")
 font = QFont()
 font.setFamily("Microsoft YaHei")
 font.setPointSize(10)
