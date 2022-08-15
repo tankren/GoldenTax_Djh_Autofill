@@ -10,13 +10,15 @@ from PySide6.QtGui import QFont
 from PySide6.QtCore import Slot, Qt
 from lxml import etree
 #from winreg import HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE, OpenKey, QueryValueEx, ConnectRegistry
-import winreg
 import re
-import sys
+import sys, importlib
 import subprocess
 import qdarktheme
 # import PySide6
 # import os
+winreg_exists = importlib.find_loader('winreg')
+if winreg_exists:
+    import winreg
 
 
 class MyWidget(QWidget):
